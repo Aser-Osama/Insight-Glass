@@ -8,7 +8,11 @@
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage{caption}
+\usepackage[table]{xcolor} % Enable coloring of table cells
 \usepackage{booktabs} % For formal tables
+\usepackage{array}
+\definecolor{lightgray}{gray}{0.9}
+
 \begin{document}
 
 
@@ -97,21 +101,37 @@ to kickstart our popularity. Finally, for the legalities, we could employee a pa
 help us sort it out.
 
 \section{Feasibility Matrix}
-\begin{table}[h]
-\centering
-\caption{Feasibility Assessment}
-\label{tab:feasibility_assessment}
-\begin{tabular}{@{}lp{5cm}ccc@{}}
-\toprule
-Criteria             & Description                                                                                        & Score & Weight & Total Score \\ \midrule
-Technical Feasibility & The project's technical requirements include platform development and data gathering processes.     & 4     & 25     & 100        \\
-Economic Feasibility  & The financial viability of the project, including initial investment, operating costs, and revenue generation. & 3     & 20     & 60         \\
-Legal Feasibility     & Compliance with legal regulations and potential risks related to data privacy, intellectual property, etc.        & 4     & 20     & 80         \\
-Operational Feasibility & The project's practical implementation and operational processes, including user engagement and support.  & 5     & 35     & 175        \\ \bottomrule
-\end{tabular}
-\end{table}
 
-\newpage
+%colorless table:
+% \begin{table}[h]
+% \centering
+% \caption{Feasibility Assessment}
+% \label{tab:feasibility_assessment}
+% \begin{tabular}{@{}lp{5cm}ccc@{}}
+% \toprule
+% Criteria             & Description                                                                                        & Score & Weight & Total Score \\ \midrule
+% Technical Feasibility & The project's technical requirements include platform development and data gathering processes.     & 4     & 25     & 100        \\
+% Economic Feasibility  & The financial viability of the project, including initial investment, operating costs, and revenue generation. & 3     & 20     & 60         \\
+% Legal Feasibility     & Compliance with legal regulations and potential risks related to data privacy, intellectual property, etc.        & 4     & 20     & 80         \\
+% Operational Feasibility & The project's practical implementation and operational processes, including user engagement and support.  & 5     & 35     & 175        \\ \bottomrule
+% \end{tabular}
+% \end{table}
+
+\begin{table}[h]
+    \centering
+    \caption{Feasibility Assessment}
+    \label{table:feasibility}
+    \begin{tabular}{>{\raggedright}m{3.5cm} >{\raggedright\arraybackslash}m{5.5cm} c c c}
+    \toprule
+    \textbf{Criteria} & \textbf{Description} & \textbf{Score} & \textbf{Weight} & \textbf{Total Score} \\ 
+    \midrule
+    \rowcolor{lightgray} Technical Feasibility & The project's technical requirements include platform development and data gathering processes. & 4 & 25 & 100 \\
+    Economic Feasibility & The financial viability of the project, including initial investment, operating costs, and revenue generation. & 3 & 20 & 60 \\
+    \rowcolor{lightgray} Legal Feasibility & Compliance with legal regulations and potential risks related to data privacy, intellectual property, etc. & 4 & 20 & 80 \\
+    Operational Feasibility & The project's practical implementation and operational processes, including user engagement and support. & 5 & 35 & 175 \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
 
 
 \section{Interface Design}
