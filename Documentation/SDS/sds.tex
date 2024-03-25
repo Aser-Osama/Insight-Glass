@@ -1,57 +1,118 @@
-\documentclass{article}
+\documentclass[titlepage]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
-\usepackage{graphicx}
+% \usepackage[draft]{graphicx} uncomment this for faster compiles.
+\usepackage{graphicx}  %uncomment this for pictures to load in.
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{booktabs} % For formal tables
+\begin{document}
 
-\title{Software Design Specification}
-\author{Your Name or Team}
+
+\title{Software Design Document\\ \textbf{Insight Glass}}
+\author{Aser Osama - 202101266 \\ Aya Sherif - 202100642 \\ Gehan Sherif - 201902069 \\ Omar Ayman 202100443 }
 \date{Version 1.0 \\\ \today}
 
-\begin{document}
 
 \maketitle
 \tableofcontents
+
+
 \newpage
 
-\section{Introduction}
-\subsection{Purpose}
-Define the purpose of this document, its intended audience, and how it should be used.
+\section{Project Overview}
+\subsection{Project idea}
+Our project's main goal is to help professionals from different disciplines start their careers at companies where 
+they can thrive. This will be achieved through radical transparency of the companies, breaking down all barriers 
+and problems in the Egyptian job markets that lead to discrimination, pay gaps, and toxic work environments.
 
-\subsection{Scope}
-Describe the scope of the software design, including system name and any relevant version or model numbers.
+\subsection{Vision}
+The vision is to transform the Egyptian job market by empowering individuals to make informed decisions about their 
+career path. The project aims to address common issues of job seekers struggling to identify suitable employment 
+opportunities and being locked into unfavorable work environments due to contractual obligations. By providing 
+comprehensive insight into the company and facilitating transparent communication between job seekers and 
+employers, the project seeks to create a dynamic ecosystem that fosters mutual growth, and they are satisfied 
 
-\subsection{Definitions, Acronyms, and Abbreviations}
-Explain the terms, acronyms, and abbreviations used in this document.
+\subsection{Competitive Analysis}
+In Egypt's job market, traditional methods of hiring still dominate, with a reliance on personal connections and 
+in-person applications. However, the emergence of online platforms has introduced new avenues for job 
+seekers. Two prominent competitors in this space are Glassdoor.
 
-\subsection{References}
-Provide a complete list of documents referenced elsewhere in the document.
+\subsubsection*{Glassdoor}
+Glassdoor, our main competitor, is a well-established platform known for providing company reviews, salary information, and job 
+listings. While it offers valuable insights into company cultures and employee experiences globally, its 
+adaptation to the Egyptian context might be limited. Glassdoor primarily relies on user-generated content, 
+which may vary in quantity and quality, especially for companies with a smaller presence in Egypt. 
+Additionally, the platform's focus on larger corporations might overlook opportunities within smaller or niche 
+companies in the Egyptian job market.
 
-\subsection{Overview}
-Briefly summarize the rest of the document.
+\newpage
 
-\section{System Overview}
-Provide a general description of the system including its functionality and matters related to the overall system and its design.
+\section{System Technical Overview}
+\subsection{System Architecture}
+We will use a simple, reliable, yet scalable architecture. We will use a Frontend and API connecting to a 
+backend model. It is a simple model, however, it will be comfortably scalable using Kubernetes, Azure, or any 
+other load balancers as we expand to have more people using our service. We will use virtualization in
+expandability and have spare servers be there in case of breakdowns to minimize downtime. 
 
-\section{System Architecture}
-\subsection{Architectural Design}
-Describe the software’s architecture, referencing any major frameworks or methodologies used.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/ArchOverview.png}
+    \caption{System Architecture Overview}
+\end{figure}
 
-\subsection{Decomposition Description}
-Detail the breakdown of the software’s architecture, if applicable.
+\subsection{Used Technologies}
+\begin{itemize}
+    \item \textbf{Frontend:} React.js for building a responsive and dynamic user interface
+    \item \textbf{Backend:} ASP.NET Web API in .NET 8 for server-side logic, providing a reliable and efficient foundation.
+    \item \textbf{Database:} MySQL/MariaDB for storing user data, reviews, and job listings, chosen for its flexibility with 
+    schema design and easy to find support. Interaction with the database will be through the Entity Framework 
+    Core ORM
+    \item \textbf{Authentication:} Identity framework with cookie-based authentication will be used.
+\end{itemize}
 
-\subsection{Design Rationale}
-Explain the reasons behind the chosen architectural and design approaches.
+\newpage
 
-\section{Data Design}
-\subsection{Database Description}
-Detail the database design, structure, and any related data management systems.
+\section{Biggest Challenges and Mitigations}
+\subsection{Challenges}
+Egypt is currently very behind in terms of modernizing the hiring process, therefore it would be incredibly 
+difficult to try and convince companies and people to change their old ways. Adoption of the application will 
+also be difficult due to the reason we would most likely function as a startup which is also not looked to highly 
+of in Egypt. Aside from initial adoption of the application, building a community of verified employees to 
+provide us with reviews and insight might be also difficult as people tend to not be as open with salaries or job 
+experience here. We will be challenging a lot of old stereotypes and set in stone rules of the workplace with our 
+application. A more technical issue we might face are fake reviews. Finally, the legalities of sharing job reviews 
+and such are not too certain in Egypt so it could be risky if not dealt with correctly.
 
-\subsection{Data Structures}
-Describe any data structures used in the system and their relationships.
+\subsection{Solutions}
+The technical issue of fake reviews could be easily solved by adding multiple human verification stages to our 
+website as well as requiring identification and proof of employment to be able to post reviews that would affect 
+the overall company rating while also keeping a section for unverified reviews. As for the adoption issues,
+however, we could attempt to gain the user’s trust by getting affiliation with trusted companies or businesses 
+figures. However, it is most likely that the issue would simple be resolved with time and we have no real choice 
+to kickstart our popularity. Finally, for the legalities, we could employee a part time or on demand legal team to 
+help us sort it out.
 
-\section{Component Design}
-Detail the design of the software components, including their responsibilities and interactions.
+\section{Feasibility Matrix}
+\begin{table}[h]
+\centering
+\caption{Feasibility Assessment}
+\label{tab:feasibility_assessment}
+\begin{tabular}{@{}lp{5cm}ccc@{}}
+\toprule
+Criteria             & Description                                                                                        & Score & Weight & Total Score \\ \midrule
+Technical Feasibility & The project's technical requirements include platform development and data gathering processes.     & 4     & 25     & 100        \\
+Economic Feasibility  & The financial viability of the project, including initial investment, operating costs, and revenue generation. & 3     & 20     & 60         \\
+Legal Feasibility     & Compliance with legal regulations and potential risks related to data privacy, intellectual property, etc.        & 4     & 20     & 80         \\
+Operational Feasibility & The project's practical implementation and operational processes, including user engagement and support.  & 5     & 35     & 175        \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
 
 \section{Interface Design}
 \subsection{External Interfaces}
