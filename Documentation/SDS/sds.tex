@@ -2,8 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
-% \usepackage[draft]{graphicx} uncomment this for faster compiles.
-\usepackage{graphicx}  %uncomment this for pictures to load in.
+ \usepackage[draft]{graphicx} %uncomment this for faster compiles.
+%\usepackage{graphicx}  %uncomment this for pictures to load in.
 \usepackage{float}
 \usepackage{subcaption}
 \usepackage{listings}
@@ -144,9 +144,76 @@ Describe the design of the user interface, including screen layouts and user int
 \section{Dynamic System Design}
 Explain the dynamic processes, activities, and tasks within the system, including any state diagrams or sequence diagrams.
 
-\section{Non-Functional Requirements}
-Detail the design considerations for non-functional requirements, including performance, security, and reliability constraints.
+\section{Functional Requirements}
+\subsection{User Registration and Authentication}
+Users can sign up using email or social media accounts and verify their identity through email or phone number. Passwords should be securely stored and encrypted.
+\subsection{Profile Management}
+Users can manage their profiles, edit personal information, upload resumes, set privacy preferences, and track their activity history (e.g., jobs applied to, reviews submitted).
+\subsection{Comprehensive Company Profiles:}
+The platform should feature detailed company profiles, including employee reviews, work culture assessments, salary information, and benefits offered.
 
+\subsection{Advanced Job Search Filters:}
+Users should be able to search for jobs using advanced filters tailored to the Egyptian job market, including location, industry, salary range, employment type, and company rating.
+
+\subsection{Direct Communication Channels:}
+The platform should facilitate direct communication between job seekers and companies, allowing inquiries about job openings, company culture, and application processes.
+
+\subsection{Transparent Job Listings:}
+Job listings should provide transparent information about job requirements, responsibilities, compensation packages, and company details to help job seekers make informed decisions.
+
+\subsection{User-Driven Community Features:}
+Users should have the ability to request the inclusion of companies not listed on the platform and contribute to the community by sharing insights and experiences.
+
+\subsection{Risk Mitigation Mechanisms:}
+The platform should implement mechanisms to vet companies before listing them, address concerns such as contractual obligations, and provide channels for users to report unfavorable experiences.
+
+\subsection{Review Submission}
+Users can submit reviews for companies they have worked for, rating aspects such as work culture, management, salary and benefits, and career growth opportunities. Reviews should be moderated to ensure authenticity and professionalism.
+
+\subsection{Interactive Discussion Forums:}
+The platform should host interactive discussion forums and groups focused on career development, industry insights, and job search strategies, encouraging user engagement and knowledge-sharing.
+
+\subsection{Localized Content and Language Support:}
+The platform should offer localized content and language support tailored to the Egyptian market, ensuring a user-friendly experience for both job seekers and employers.
+
+\subsection{Integration with Social Media Platforms:}
+Users should have the option to integrate their social media profiles with the platform for seamless networking and profile completion, enhancing their visibility to potential employers.
+
+
+\subsection{Salary Benchmarking Tools:}
+The platform should provide salary benchmarking tools based on industry standards and user-reported data, helping job seekers evaluate compensation packages and negotiate effectively.
+
+\subsection{Interview Preparation Resources:}
+Users can share and access interview experiences specific to the Egyptian job market, including insights on common interview questions, cultural expectations, and company-specific practices.
+
+
+\subsection{Feedback and Ratings System:}
+The platform should include a feedback and ratings system for companies, allowing users to rate their experiences and provide constructive feedback to improve employer practices.
+
+\subsection{Data Privacy and Security Measures:}
+The platform should implement robust data privacy and security measures to protect user information and comply with Egyptian data protection regulations.
+
+\subsection{Analytics and Insights Dashboard:}
+Administrators should have access to an analytics and insights dashboard to track user engagement, job market trends, and platform performance metrics.
+
+\subsection{Collaboration with Educational Institutions:}
+The platform should collaborate with educational institutions to provide career guidance, internship opportunities, and job placement services for students and recent graduates.
+
+\subsection{Promotion of Diversity and Inclusion:}
+The platform should actively promote diversity and inclusion in the workplace by featuring companies with inclusive policies and initiatives and encouraging equal opportunities for all job seekers.
+
+\subsection{Continuous Improvement and Updates:}
+The platform should undergo continuous improvement and updates based on user feedback, technological advancements, and changes in the job market landscape to enhance user experience and platform functionality.
+
+\section{Non-Functional Requirements}
+\subsection{Performance and Scalability}
+
+The platform   should be highly responsive, with fast loading times and smooth navigation, ensuring a seamless user experience for job seekers and employers accessing the platform from various devices and locations across Egypt.
+The system architecture should be scalable to accommodate growing user traffic and data volume, allowing the platform to handle increased user activity and maintain performance reliability during peak usage periods.
+\subsection{Data Privacy and Security Compliance}
+
+The platform should adhere to strict data privacy and security standards, ensuring the confidentiality, integrity, and availability of user data.
+Compliance measures should align with Egyptian data protection regulations, such as the Data Protection Law, ensuring that user information is stored, processed, and transmitted securely to mitigate the risk of unauthorized access, data breaches, and privacy violations.
 \appendix
 \section{Appendix A: Glossary}
 \section{Appendix B: Feasibility Study}
