@@ -21,8 +21,8 @@
 \date{Version 1.0 \\\ \today}
 
 
-\maketitle
-\tableofcontents
+% \maketitle
+% \tableofcontents
 
 
 \newpage
@@ -145,66 +145,82 @@ Describe the design of the user interface, including screen layouts and user int
 Explain the dynamic processes, activities, and tasks within the system, including any state diagrams or sequence diagrams.
 
 \section{Functional Requirements}
-\subsection{User Registration and Authentication}
-Users can sign up using email or social media accounts and verify their identity through email or phone number. Passwords should be securely stored and encrypted.
-\subsection{Profile Management}
-Users can manage their profiles, edit personal information, upload resumes, set privacy preferences, and track their activity history (e.g., jobs applied to, reviews submitted).
-\subsection{Comprehensive Company Profiles:}
-The platform should feature detailed company profiles, including employee reviews, work culture assessments, salary information, and benefits offered.
+\subsection{User Registration and Authentication:}
+\begin{itemize}
+    \item Users can create an account by providing basic information such as email, username, and password.
+    \item Users can authenticate their account through email verification or other methods to ensure security.
+\end{itemize}
+\subsection{Profile Management:}
+\begin{itemize}
+    \item Users can create and maintain a personal profile showcasing their skills, experience, and education.
+    \item Users can edit and update their profile information, including work history, education, certifications, and skills.
+    \item Users can upload and manage their resume, cover letters, and other relevant documents.
+\end{itemize}
 
 \subsection{Advanced Job Search Filters:}
-Users should be able to search for jobs using advanced filters tailored to the Egyptian job market, including location, industry, salary range, employment type, and company rating.
+\begin{itemize}
+    \item Users can search for job openings by keyword, location, industry, or company.
+    \item User can filter job listings based on criteria such as salary, job type, and experience level.
+\end{itemize}
 
-\subsection{Direct Communication Channels:}
-The platform should facilitate direct communication between job seekers and companies, allowing inquiries about job openings, company culture, and application processes.
+\subsection{Comprehensive Company Profiles:}
+\begin{itemize}
+    \item Users can request the inclusion of companies not listed on the platform, expanding the range of available job opportunities. For example, a CEO of a software company can create a profile for his company.
+    \item Users can access detailed profiles of companies, providing comprehensive information about the organization.
+    \item Users can view key details such as company size, revenue, headquarters location, and founding year.
+    \item Users can view employee testimonials to gain insights into the workplace environment.
+\end{itemize}
 
 \subsection{Transparent Job Listings:}
-Job listings should provide transparent information about job requirements, responsibilities, compensation packages, and company details to help job seekers make informed decisions.
+\begin{itemize}
+    \item Users can access job listings that provide detailed information about the position, including responsibilities, qualifications, and benefits.
+    \item Users can access insights or reviews from current or former employees about the hiring company to gain context about the work environment.
+    \item Users can track the status of their applications and receive updates or notifications about changes in the job listing, such as application deadlines or interview invitations.
+\end{itemize}
 
-\subsection{User-Driven Community Features:}
-Users should have the ability to request the inclusion of companies not listed on the platform and contribute to the community by sharing insights and experiences.
-
-\subsection{Risk Mitigation Mechanisms:}
-The platform should implement mechanisms to vet companies before listing them, address concerns such as contractual obligations, and provide channels for users to report unfavorable experiences.
-
-\subsection{Review Submission}
-Users can submit reviews for companies they have worked for, rating aspects such as work culture, management, salary and benefits, and career growth opportunities. Reviews should be moderated to ensure authenticity and professionalism.
+\subsection{Career Advice:}
+\begin{itemize}
+    \item Users can access articles, tips, and resources related to career development, job searching, and workplace issues.
+    \item Users can participate in forums or Q\&A sections to seek advice from experts and peers.
+    \item Users can receive personalized career advice based on their interests, goals, and experience level,
+\end{itemize}
 
 \subsection{Interactive Discussion Forums:}
-The platform should host interactive discussion forums and groups focused on career development, industry insights, and job search strategies, encouraging user engagement and knowledge-sharing.
+\begin{itemize}
+    \item Users can join specialized chat channels or forums dedicated to some disciplines as software engineering to discuss different offers and job opportunities.
+    \item Users can engage with industry experts or mentors through Q\&A sessions, AMA (Ask Me Anything) events, or one-on-one consultations.
+\end{itemize}
 
-\subsection{Localized Content and Language Support:}
-The platform should offer localized content and language support tailored to the Egyptian market, ensuring a user-friendly experience for both job seekers and employers.
-
-\subsection{Integration with Social Media Platforms:}
-Users should have the option to integrate their social media profiles with the platform for seamless networking and profile completion, enhancing their visibility to potential employers.
-
-
+\subsection{Direct Communication Channels:}
+\begin{itemize}
+    \item Users can directly message companies or hiring managers to inquire about job openings, company culture, and application processes.
+    \item Job seekers can gather more information about potential employers before applying to a specific job opening.
+\end{itemize}
 \subsection{Salary Benchmarking Tools:}
-The platform should provide salary benchmarking tools based on industry standards and user-reported data, helping job seekers evaluate compensation packages and negotiate effectively.
-
-\subsection{Interview Preparation Resources:}
-Users can share and access interview experiences specific to the Egyptian job market, including insights on common interview questions, cultural expectations, and company-specific practices.
-
+\begin{itemize}
+    \item Users should have access to comprehensive salary data for various job positions and industries, giving insights into average salaries, salary ranges, and compensation trends for specific roles and geographic locations.
+    \item Users can compare their salary against peers with similar backgrounds, roles, and experience.
+    \item Salary benchmarking tools offer visualizations such as charts, graphs, and reports to present salary data in an easily digestible format.
+\end{itemize}
 
 \subsection{Feedback and Ratings System:}
-The platform should include a feedback and ratings system for companies, allowing users to rate their experiences and provide constructive feedback to improve employer practices.
-
-\subsection{Data Privacy and Security Measures:}
-The platform should implement robust data privacy and security measures to protect user information and comply with Egyptian data protection regulations.
-
-\subsection{Analytics and Insights Dashboard:}
-Administrators should have access to an analytics and insights dashboard to track user engagement, job market trends, and platform performance metrics.
-
-\subsection{Collaboration with Educational Institutions:}
-The platform should collaborate with educational institutions to provide career guidance, internship opportunities, and job placement services for students and recent graduates.
-
-\subsection{Promotion of Diversity and Inclusion:}
-The platform should actively promote diversity and inclusion in the workplace by featuring companies with inclusive policies and initiatives and encouraging equal opportunities for all job seekers.
-
-\subsection{Continuous Improvement and Updates:}
-The platform should undergo continuous improvement and updates based on user feedback, technological advancements, and changes in the job market landscape to enhance user experience and platform functionality.
-
+\begin{itemize}
+    \item Users can provide feedback and ratings on their experiences with companies, including aspects such as company culture, work-life balance, management, and career growth opportunities. Reviews and ratings may be subject to verification processes to ensure their authenticity and reliability.
+    \item Users can rate companies, job listings, and interview experiences on a standardized scale (e.g., star ratings or numerical scores).
+    \item Users have the option to provide feedback anonymously, allowing them to share honest and candid opinions without fear of repercussions.
+\end{itemize}
+\subsection{Integration with Social Media Platforms:}
+\begin{itemize}
+    \item Users can easily share job listings, company profiles, and other relevant content from the platform to their social media accounts.
+    \item Users have the option to link their platform profiles with their social media accounts, increasing their visibility and networking opportunities.
+    \item Employers and recruiters can promote job openings and employer branding initiatives through their social media channels, reaching a broader audience of potential candidates.
+\end{itemize}
+\subsection{Interview Preparation Resources:}
+Users can share and access interview experiences specific to the Egyptian job market, including insights on common interview questions, cultural expectations, and company-specific practices.
+\begin{itemize}
+    \item Users can access comprehensive guides and resources to prepare for various types of interviews, including behavioral interviews, technical interviews, case interviews, and competency-based interviews.
+    \item Users can receive feedback on their resumes, cover letters, and portfolios from industry experts or career coaches.
+\end{itemize}
 \section{Non-Functional Requirements}
 \subsection{Performance and Scalability}
 
