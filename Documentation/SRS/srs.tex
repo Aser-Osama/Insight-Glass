@@ -1,77 +1,139 @@
-\documentclass{article}
+\documentclass[titlepage]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
-\usepackage{graphicx}
-
-\title{Software Requirements Specification}
-\author{Your Name or Team}
-\date{Version 1.0 \\\ \today}
+ \usepackage[draft]{graphicx} %uncomment this for faster compiles.
+%\usepackage{graphicx}  %uncomment this for pictures to load in.
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage[table]{xcolor} % Enable coloring of table cells
+\usepackage{booktabs} % For formal tables
+\usepackage{array}
+\definecolor{lightgray}{gray}{0.9}
 
 \begin{document}
 
+
+\title{Software Requirements Document\\ \textbf{Insight Glass}}
+\author{Aser Osama - 202101266 \\ Aya Sherif - 202100642 \\ Gehan Sherif - 201902069 \\ Omar Ayman 202100443 }
+\date{Version 1.0 \\\ \today}
+
+
 \maketitle
 \tableofcontents
+
+
 \newpage
+
 
 \section{Introduction}
 \subsection{Purpose}
-The purpose of this document is to provide a detailed overview of our software product, its parameters, and goals. This document is intended for both the stakeholders and the developers of the system.
+Our project's main purpose is to help professionals from different disciplines start their careers at companies where 
+they can thrive. This will be achieved through radical transparency of the companies, breaking down all barriers 
+and problems in the Egyptian job markets that lead to discrimination, pay gaps, and toxic work environments.
 
-\subsection{Scope}
-Describe the scope of the software including its name, objectives, and goals.
 
-\subsection{Definitions, Acronyms, and Abbreviations}
-Provide the definitions of all terms, acronyms, and abbreviations required to properly interpret the SRS.
+\subsection{Vision}
+The vision is to transform the Egyptian job market by empowering individuals to make informed decisions about their 
+career path. The project aims to address common issues of job seekers struggling to identify suitable employment 
+opportunities and being locked into unfavorable work environments due to contractual obligations. By providing 
+comprehensive insight into the company and facilitating transparent communication between job seekers and 
+employers, the project seeks to create a dynamic ecosystem that fosters mutual growth, and they are satisfied 
 
-\subsection{References}
-List all the documents that are referenced within this SRS.
+\section{Functional Requirements}
+\subsection{User Registration and Authentication:}
+\begin{itemize}
+    \item Users can create an account by providing basic information such as email, username, and password.
+    \item Users can authenticate their account through email verification or other methods to ensure security.
+\end{itemize}
+\subsection{Profile Management:}
+\begin{itemize}
+    \item Users can create and maintain a personal profile showcasing their skills, experience, and education.
+    \item Users can edit and update their profile information, including work history, education, certifications, and skills.
+    \item Users can upload and manage their resume, cover letters, and other relevant documents.
+\end{itemize}
 
-\subsection{Overview}
-Briefly outline the contents of this SRS.
+\subsection{Advanced Job Search Filters:}
+\begin{itemize}
+    \item Users can search for job openings by keyword, location, industry, or company.
+    \item User can filter job listings based on criteria such as salary, job type, and experience level.
+\end{itemize}
 
-\section{Overall Description}
-\subsection{Product Perspective}
-Describe the context and origin of the product being specified in this SRS.
+\subsection{Comprehensive Company Profiles:}
+\begin{itemize}
+    \item Users can request the inclusion of companies not listed on the platform, expanding the range of available job opportunities. For example, a CEO of a software company can create a profile for his company.
+    \item Users can access detailed profiles of companies, providing comprehensive information about the organization.
+    \item Users can view key details such as company size, revenue, headquarters location, and founding year.
+    \item Users can view employee testimonials to gain insights into the workplace environment.
+\end{itemize}
 
-\subsection{Product Functions}
-Summarize the major functions the product must perform or must let the user perform.
+\subsection{Transparent Job Listings:}
+\begin{itemize}
+    \item Users can access job listings that provide detailed information about the position, including responsibilities, qualifications, and benefits.
+    \item Users can access insights or reviews from current or former employees about the hiring company to gain context about the work environment.
+    \item Users can track the status of their applications and receive updates or notifications about changes in the job listing, such as application deadlines or interview invitations.
+\end{itemize}
 
-\subsection{User Classes and Characteristics}
-Describe the different types of users that will interact with the software.
+\subsection{Career Advice:}
+\begin{itemize}
+    \item Users can access articles, tips, and resources related to career development, job searching, and workplace issues.
+    \item Users can participate in forums or Q\&A sections to seek advice from experts and peers.
+    \item Users can receive personalized career advice based on their interests, goals, and experience level,
+\end{itemize}
 
-\subsection{Operating Environment}
-Describe the environment in which the software will operate.
+\subsection{Interactive Discussion Forums:}
+\begin{itemize}
+    \item Users can join specialized chat channels or forums dedicated to some disciplines as software engineering to discuss different offers and job opportunities.
+    \item Users can engage with industry experts or mentors through Q\&A sessions, AMA (Ask Me Anything) events, or one-on-one consultations.
+\end{itemize}
 
-\subsection{Design and Implementation Constraints}
-Outline any design and implementation constraints.
+\subsection{Direct Communication Channels:}
+\begin{itemize}
+    \item Users can directly message companies or hiring managers to inquire about job openings, company culture, and application processes.
+    \item Job seekers can gather more information about potential employers before applying to a specific job opening.
+\end{itemize}
+\subsection{Salary Benchmarking Tools:}
+\begin{itemize}
+    \item Users should have access to comprehensive salary data for various job positions and industries, giving insights into average salaries, salary ranges, and compensation trends for specific roles and geographic locations.
+    \item Users can compare their salary against peers with similar backgrounds, roles, and experience.
+    \item Salary benchmarking tools offer visualizations such as charts, graphs, and reports to present salary data in an easily digestible format.
+\end{itemize}
 
-\subsection{User Documentation}
-List the user documentation that will be available.
+\subsection{Feedback and Ratings System:}
+\begin{itemize}
+    \item Users can provide feedback and ratings on their experiences with companies, including aspects such as company culture, work-life balance, management, and career growth opportunities. Reviews and ratings may be subject to verification processes to ensure their authenticity and reliability.
+    \item Users can rate companies, job listings, and interview experiences on a standardized scale (e.g., star ratings or numerical scores).
+    \item Users have the option to provide feedback anonymously, allowing them to share honest and candid opinions without fear of repercussions.
+\end{itemize}
+\subsection{Integration with Social Media Platforms:}
+\begin{itemize}
+    \item Users can easily share job listings, company profiles, and other relevant content from the platform to their social media accounts.
+    \item Users have the option to link their platform profiles with their social media accounts, increasing their visibility and networking opportunities.
+    \item Employers and recruiters can promote job openings and employer branding initiatives through their social media channels, reaching a broader audience of potential candidates.
+\end{itemize}
+\subsection{Interview Preparation Resources:}
+Users can share and access interview experiences specific to the Egyptian job market, including insights on common interview questions, cultural expectations, and company-specific practices.
+\begin{itemize}
+    \item Users can access comprehensive guides and resources to prepare for various types of interviews, including behavioral interviews, technical interviews, case interviews, and competency-based interviews.
+    \item Users can receive feedback on their resumes, cover letters, and portfolios from industry experts or career coaches.
+\end{itemize}
 
-\subsection{Assumptions and Dependencies}
-State any assumptions and dependencies regarding the software project.
-
-\section{System Features}
-\subsection{System Feature 1}
-\subsubsection{Description}
-\subsubsection{Functional Requirements}
-
-\subsection{System Feature 2}
-\subsubsection{Description}
-\subsubsection{Functional Requirements}
-
-\section{External Interface Requirements}
-\subsection{User Interfaces}
-\subsection{Hardware Interfaces}
-\subsection{Software Interfaces}
-\subsection{Communication Interfaces}
-
+\subsection{Analytics and Insights Dashboard:}
+\begin{itemize}
+    \item Administrators should have access to an analytics and insights dashboard to track user engagement, job market trends, and platform performance metrics. The dashboard shhould provide comprehensive data visualization and analysis tools for monitoring user activity, such as job searches, applications, and interactions.
+\end{itemize}
 \section{Non-Functional Requirements}
-\subsection{Performance Requirements}
-\subsection{Safety Requirements}
-\subsection{Security Requirements}
-\subsection{Software Quality Attributes}
+\subsection{Performance and Scalability}
+
+The platform   should be highly responsive, with fast loading times and smooth navigation, ensuring a seamless user experience for job seekers and employers accessing the platform from various devices and locations across Egypt.
+The system architecture should be scalable to accommodate growing user traffic and data volume, allowing the platform to handle increased user activity and maintain performance reliability during peak usage periods.
+\subsection{Data Privacy and Security Compliance}
+The platform should adhere to strict data privacy and security standards, ensuring the confidentiality, integrity, and availability of user data.
+Compliance measures should align with Egyptian data protection regulations, such as the Data Protection Law, ensuring that user information is stored, processed, and transmitted securely to mitigate the risk of unauthorized access, data breaches, and privacy violations.
+\appendix
+
 
 \section{Other Requirements}
 
