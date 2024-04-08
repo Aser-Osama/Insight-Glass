@@ -42,9 +42,18 @@ To run Insight Glass locally:
 2. Install necessary dependencies for both frontend and backend.
 3. Follow the setup instructions detailed in the `setup.md` file.
 
+## Viewing the App
+
+Go to http://127.0.0.1:5000
+
 ## Contribution
 
-We welcome contributions from the community.
+If you would like to contribute to the E-commerce Software System, please follow these steps:
+
+    1- Fork the repository.
+    2- Create a new branch for your changes.
+    3- Make your changes and commit them to your branch.
+    4- Submit a pull request.
 
 ## License
 
