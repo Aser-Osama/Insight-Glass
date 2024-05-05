@@ -1,0 +1,6 @@
+@InsightGlassTest.Server_HostAddress = http://localhost:5034
+
+GET {{InsightGlassTest.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
