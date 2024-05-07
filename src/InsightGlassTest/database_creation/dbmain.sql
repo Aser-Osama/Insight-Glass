@@ -51,17 +51,20 @@ After updating the `ApplicationDBContext` context, you should be able to use the
 Remember to rebuild your project and update any references to the new tables in your code.
 */
 
-CREATE TABLE Seeker (
-	userId varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS Seeker (
+	SeekerUserId varchar(255) NOT NULL,
     SeekerId INT NOT NULL AUTO_INCREMENT,
 
-    Biography Text,
-    City varchar(255),
-    Governate varchar(255),
-    SavedResume varchar(255), /* will be a link or path */
+    SeekerBiography Text,
+    SeekerCity varchar(255),
+    SeekerGovernate varchar(255),
+    SeekerSavedResume varchar(255), /* will be a link or path */
+    SeekerDegree varchar(255),
+    SeekerUniversity varchar(255),
+    SeekerDateOfGraduation date,
     
-    PRIMARY KEY (SeekerId, userId),
-    CONSTRAINT FK_userId FOREIGN KEY (userId) REFERENCES aspnetusers(Id)
+    PRIMARY KEY (SeekerId, SeekerUserId),
+    CONSTRAINT FK_userId FOREIGN KEY (SeekerUserId) REFERENCES aspnetusers(Id)
 );
 
 /*
@@ -135,18 +138,18 @@ public class MyDbContext : DbContext
 }
 */
 
-CREATE TABLE Company (
-	userId varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS Company (
+	CompanyUserId varchar(255) NOT NULL,
     CompanyId INT NOT NULL AUTO_INCREMENT,
 
-    Biography Text,
-    City varchar(255),
-    Governate varchar(255),
-    Industry  varchar(255),
-    Size  varchar(255),
+    CompanyBiography Text,
+    CompanyCity varchar(255),
+    CompanyGovernate varchar(255),
+    CompanyIndustry  varchar(255),
+    CompanySize  varchar(255),
     
-    PRIMARY KEY (CompanyId, userId),
-    CONSTRAINT FK_userId FOREIGN KEY (userId) REFERENCES aspnetusers(Id)
+    PRIMARY KEY (CompanyId, CompanyUserId),
+    CONSTRAINT FK_CompanyuserId FOREIGN KEY (CompanyUserId) REFERENCES aspnetusers(Id)
 );
 
 /*
@@ -195,7 +198,7 @@ public class MyDbContext : DbContext
 }
 */
 
-CREATE TABLE Following (
+CREATE TABLE IF NOT EXISTS UserFollowing (
 	ThisUserId varchar(255) NOT NULL,
 	FollowsUserId varchar(255) NOT NULL,
 
@@ -251,3 +254,78 @@ public class MyDbContext : DbContext
 Note that I assumed you have an `ApplicationUser` entity that corresponds to the `aspnetusers` table. You may need to adjust the navigation properties and foreign key configurations accordingly.
 */
 
+CREATE TABLE IF NOT EXISTS CompanyFeedback ( /* A user can only rate a company once */
+	FeedbackSeekerId int NOT NULL,
+	FeedbackCompanyId int NOT NULL,
+	FeedbackRatingScore int NOT NULL,
+    FeedbackRatingComment text,
+    PRIMARY KEY (FeedbackSeekerId, FeedbackCompanyId),
+    CONSTRAINT FK_SeekerId FOREIGN KEY (FeedbackSeekerId) REFERENCES Seeker(SeekerId),
+    CONSTRAINT FK_CompanyId FOREIGN KEY (FeedbackCompanyId) REFERENCES Company(CompanyId)
+);
+
+CREATE TABLE IF NOT EXISTS SeekerExperience ( /* A user can have multiple records of experience*/
+	ExperienceSeekerId int NOT NULL,
+	ExperienceId int NOT NULL auto_increment,
+	ExperienceCompanyName varchar(255) NOT NULL,
+    ExperienceRole varchar(255),
+    ExperienceStart date,
+    ExperienceEnd date,
+    ExperienceDetails text,
+    PRIMARY KEY (ExperienceId, ExperienceSeekerId),
+    CONSTRAINT FK_SeekerExpId FOREIGN KEY (ExperienceSeekerId) REFERENCES Seeker(SeekerId)
+);
+
+CREATE TABLE IF NOT EXISTS JobOpening ( /* A user can have multiple records of experience*/
+	JobCompanyId int NOT NULL,
+	JobId int NOT NULL auto_increment,
+    
+	JobTitle varchar(255) NOT NULL,
+    JobEmploymentType varchar(255),
+    JobDetails text,
+    JobSalary decimal,
+    
+    PRIMARY KEY (JobId, JobCompanyId),
+    CONSTRAINT FK_JobCompanyId FOREIGN KEY (JobCompanyId) REFERENCES Company(CompanyId)
+);
+
+CREATE TABLE IF NOT EXISTS Application ( /* A user can only rate a company once */
+	ApplicationSeekerId int NOT NULL,
+	ApplicationCompanyId int NOT NULL,
+    ApplicationJobId int NOT NULL auto_increment,
+	ApplicationResume varchar(255) not null,
+    
+    
+    PRIMARY KEY (ApplicationJobId, ApplicationSeekerId, ApplicationCompanyId),
+    CONSTRAINT FK_SeekerApplicationId FOREIGN KEY (ApplicationSeekerId) REFERENCES Seeker(SeekerId),
+    CONSTRAINT FK_CompanyApplicationId FOREIGN KEY (ApplicationCompanyId) REFERENCES Company(CompanyId),
+    CONSTRAINT FK_ApplicationJobId FOREIGN KEY (ApplicationJobId) REFERENCES JobOpening(JobId)
+);
+
+CREATE TABLE IF NOT EXISTS BlogPost ( /* A user can only rate a company once */
+	BlogUserID varchar(255) NOT null,
+    BlogID int NOT NULL auto_increment,
+	
+    BlogTitle varchar(255) NOT null,
+	BlogBody text NOT null,
+	BlogUploadDate date not null,
+    BlogNumLikes int,
+
+    PRIMARY KEY (BlogID, BlogUserID),
+    CONSTRAINT FK_UserBlogId FOREIGN KEY (BlogUserID) REFERENCES aspnetusers(Id)
+);
+
+CREATE TABLE IF NOT EXISTS BlogComment ( /* A user can only rate a company once */
+	BlogUserID varchar(255) NOT null,
+    BlogID int NOT NULL,
+	BlogCommentID int NOT NULL auto_increment,
+
+	CommentBody text NOT null,
+	CommentUploadDate date not null,
+    CommentUpVote int,
+    CommentDownVote int,
+
+    PRIMARY KEY (BlogCommentID, BlogUserID, BlogID),
+    CONSTRAINT FK_BlogCommentId FOREIGN KEY (BlogID) REFERENCES BlogPost(BlogID),
+    CONSTRAINT FK_UserCommentId FOREIGN KEY (BlogUserID) REFERENCES aspnetusers(Id)
+);
