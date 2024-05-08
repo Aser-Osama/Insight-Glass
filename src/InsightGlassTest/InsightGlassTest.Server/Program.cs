@@ -1,5 +1,6 @@
 
 using InsightGlassTest.Server.Data;
+using InsightGlassTest.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -22,11 +23,14 @@ namespace InsightGlassTest.Server
             builder.Services.AddSwaggerGen();
 
 
-            var connectionString = builder.Configuration.GetConnectionString("connLocal");
+            var connectionString = builder.Configuration.GetConnectionString("connLive");
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion), ServiceLifetime.Scoped);
+            
+            builder.Services.AddDbContext<idbcontext>(options =>
+               options.UseMySql(connectionString, serverVersion), ServiceLifetime.Scoped);
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.34-mysql"), options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
@@ -69,7 +73,8 @@ namespace InsightGlassTest.Server
             app.MapGet("/pingauth", (ClaimsPrincipal user) =>
             {
                 var email = user.FindFirstValue(ClaimTypes.Email); // get the user's email from the claim
-                return Results.Json(new { Email = email }); ; // return the email as a plain text response
+                var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
+                return Results.Json(new { Email = email, Id = id }); ; // return the email as a plain text response
             }).RequireAuthorization();
 
             // Configure the HTTP request pipeline.

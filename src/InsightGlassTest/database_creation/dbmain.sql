@@ -53,7 +53,6 @@ Remember to rebuild your project and update any references to the new tables in 
 
 CREATE TABLE IF NOT EXISTS Seeker (
 	SeekerUserId varchar(255) NOT NULL,
-    SeekerId INT NOT NULL AUTO_INCREMENT,
 
     SeekerBiography Text,
     SeekerCity varchar(255),
@@ -63,7 +62,7 @@ CREATE TABLE IF NOT EXISTS Seeker (
     SeekerUniversity varchar(255),
     SeekerDateOfGraduation date,
     
-    PRIMARY KEY (SeekerId, SeekerUserId),
+    PRIMARY KEY (SeekerUserId),
     CONSTRAINT FK_userId FOREIGN KEY (SeekerUserId) REFERENCES aspnetusers(Id)
 );
 
@@ -82,7 +81,7 @@ public class Seeker
     [Key]
     [Column(Order = 1)]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int SeekerId { get; set; }
+    public int SeekerUserId { get; set; }
 
     [Required]
     [StringLength(255)]
@@ -140,7 +139,6 @@ public class MyDbContext : DbContext
 
 CREATE TABLE IF NOT EXISTS Company (
 	CompanyUserId varchar(255) NOT NULL,
-    CompanyId INT NOT NULL AUTO_INCREMENT,
 
     CompanyBiography Text,
     CompanyCity varchar(255),
@@ -148,7 +146,7 @@ CREATE TABLE IF NOT EXISTS Company (
     CompanyIndustry  varchar(255),
     CompanySize  varchar(255),
     
-    PRIMARY KEY (CompanyId, CompanyUserId),
+    PRIMARY KEY (CompanyUserId),
     CONSTRAINT FK_CompanyuserId FOREIGN KEY (CompanyUserId) REFERENCES aspnetusers(Id)
 );
 
@@ -167,7 +165,7 @@ public class Company
     [Key]
     [Column(Order = 1)]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int CompanyId { get; set; }
+    public int CompanyUserId { get; set; }
 
     public string Biography { get; set; }
 
@@ -255,29 +253,29 @@ Note that I assumed you have an `ApplicationUser` entity that corresponds to the
 */
 
 CREATE TABLE IF NOT EXISTS CompanyFeedback ( /* A user can only rate a company once */
-	FeedbackSeekerId int NOT NULL,
-	FeedbackCompanyId int NOT NULL,
+	FeedbackSeekerUserId varchar(255) NOT NULL,
+	FeedbackCompanyUserId varchar(255) NOT NULL,
 	FeedbackRatingScore int NOT NULL,
     FeedbackRatingComment text,
-    PRIMARY KEY (FeedbackSeekerId, FeedbackCompanyId),
-    CONSTRAINT FK_SeekerId FOREIGN KEY (FeedbackSeekerId) REFERENCES Seeker(SeekerId),
-    CONSTRAINT FK_CompanyId FOREIGN KEY (FeedbackCompanyId) REFERENCES Company(CompanyId)
+    PRIMARY KEY (FeedbackSeekerUserId, FeedbackCompanyUserId),
+    CONSTRAINT FK_SeekerUserId1 FOREIGN KEY (FeedbackSeekerUserId) REFERENCES Seeker(SeekerUserId),
+    CONSTRAINT FK_CompanyUserId1 FOREIGN KEY (FeedbackCompanyUserId) REFERENCES Company(CompanyUserId)
 );
 
 CREATE TABLE IF NOT EXISTS SeekerExperience ( /* A user can have multiple records of experience*/
-	ExperienceSeekerId int NOT NULL,
+	ExperienceSeekerUserId varchar(255) NOT NULL,
 	ExperienceId int NOT NULL auto_increment,
 	ExperienceCompanyName varchar(255) NOT NULL,
     ExperienceRole varchar(255),
     ExperienceStart date,
     ExperienceEnd date,
     ExperienceDetails text,
-    PRIMARY KEY (ExperienceId, ExperienceSeekerId),
-    CONSTRAINT FK_SeekerExpId FOREIGN KEY (ExperienceSeekerId) REFERENCES Seeker(SeekerId)
+    PRIMARY KEY (ExperienceId, ExperienceSeekerUserId),
+    CONSTRAINT FK_SeekerExpId1 FOREIGN KEY (ExperienceSeekerUserId) REFERENCES Seeker(SeekerUserId)
 );
 
 CREATE TABLE IF NOT EXISTS JobOpening ( /* A user can have multiple records of experience*/
-	JobCompanyId int NOT NULL,
+	JobCompanyUserId varchar(255)  NOT NULL,
 	JobId int NOT NULL auto_increment,
     
 	JobTitle varchar(255) NOT NULL,
@@ -285,20 +283,20 @@ CREATE TABLE IF NOT EXISTS JobOpening ( /* A user can have multiple records of e
     JobDetails text,
     JobSalary decimal,
     
-    PRIMARY KEY (JobId, JobCompanyId),
-    CONSTRAINT FK_JobCompanyId FOREIGN KEY (JobCompanyId) REFERENCES Company(CompanyId)
+    PRIMARY KEY (JobId, JobCompanyUserId),
+    CONSTRAINT FK_JobCompanyUserId FOREIGN KEY (JobCompanyUserId) REFERENCES Company(CompanyUserId)
 );
 
 CREATE TABLE IF NOT EXISTS Application ( /* A user can only rate a company once */
-	ApplicationSeekerId int NOT NULL,
-	ApplicationCompanyId int NOT NULL,
+	ApplicationSeekerUserId varchar(255)  NOT NULL,
+	ApplicationCompanyUserId varchar(255)  NOT NULL,
     ApplicationJobId int NOT NULL auto_increment,
 	ApplicationResume varchar(255) not null,
     
     
-    PRIMARY KEY (ApplicationJobId, ApplicationSeekerId, ApplicationCompanyId),
-    CONSTRAINT FK_SeekerApplicationId FOREIGN KEY (ApplicationSeekerId) REFERENCES Seeker(SeekerId),
-    CONSTRAINT FK_CompanyApplicationId FOREIGN KEY (ApplicationCompanyId) REFERENCES Company(CompanyId),
+    PRIMARY KEY (ApplicationJobId, ApplicationSeekerUserId, ApplicationCompanyUserId),
+    CONSTRAINT FK_SeekerApplicationId FOREIGN KEY (ApplicationSeekerUserId) REFERENCES Seeker(SeekerUserId),
+    CONSTRAINT FK_CompanyApplicationId FOREIGN KEY (ApplicationCompanyUserId) REFERENCES Company(CompanyUserId),
     CONSTRAINT FK_ApplicationJobId FOREIGN KEY (ApplicationJobId) REFERENCES JobOpening(JobId)
 );
 
@@ -329,3 +327,9 @@ CREATE TABLE IF NOT EXISTS BlogComment ( /* A user can only rate a company once 
     CONSTRAINT FK_BlogCommentId FOREIGN KEY (BlogID) REFERENCES BlogPost(BlogID),
     CONSTRAINT FK_UserCommentId FOREIGN KEY (BlogUserID) REFERENCES aspnetusers(Id)
 );
+
+/*
+Scaffold-DbContext "server=localhost;database=insightglassdb;user=root;password=1234;" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -f -Context idbcontext -d
+Add-Migration -Context idbcontext sync 
+//Remove all code in up and down
+*/
