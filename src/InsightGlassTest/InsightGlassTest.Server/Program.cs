@@ -23,7 +23,7 @@ namespace InsightGlassTest.Server
             builder.Services.AddSwaggerGen();
 
 
-            var connectionString = builder.Configuration.GetConnectionString("connLive");
+            var connectionString = builder.Configuration.GetConnectionString("connLocal");
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
