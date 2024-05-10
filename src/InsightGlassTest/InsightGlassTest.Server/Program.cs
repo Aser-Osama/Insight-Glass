@@ -41,7 +41,6 @@ namespace InsightGlassTest.Server
 
             builder.Services.AddIdentityCore<ApplicationUser>(options =>
             {
-
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequiredLength = 5;
                 options.Password.RequireNonAlphanumeric = false;
@@ -63,10 +62,8 @@ namespace InsightGlassTest.Server
 
             app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
             {
-
                 await signInManager.SignOutAsync();
                 return Results.Ok();
-
             }).RequireAuthorization();
 
 

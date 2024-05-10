@@ -2,9 +2,27 @@ import { useState } from "react";
 import { Carousel, Container, Row, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+// import LogoutLink from "../../components/LogoutLink.jsx";
+// import AuthorizeView, {
+//   AuthorizedUser,
+// } from "../../components/AuthorizeView.jsx";
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+//   <AuthorizeView
+//     showLoadingMsg={false}
+//     redirectToLoginPage={false}
+//     onIsLoggedIn={setIsLoggedIn}
+//   >
+//     <span>
+//       <LogoutLink>
+//         Logout <AuthorizedUser value="email" />
+//       </LogoutLink>
+//     </span>
+//     <p>THIS HIDDENTTTTT</p>
+//   </AuthorizeView>
 function HomePage() {
   const navigate = useNavigate();
   const [SearchVal, setSearchVal] = useState("");
+
   return (
     <div>
       <Carousel data-bs-theme="dark">
@@ -55,7 +73,15 @@ function HomePage() {
           <br></br>
           <br></br>
           <br></br>
-          <Form className="d-flex">
+          <Form
+            className="d-flex"
+            onSubmit={(e) => e.preventDefault()}
+            onKeyDown={(e) =>
+              e.key === "Enter"
+                ? navigate(`search_company/?search=${SearchVal}`)
+                : ""
+            }
+          >
             <Form.Control
               type="search"
               placeholder="Job Title, Key word, or company"

@@ -1,7 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 
 function SearchResultForJob() {
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    const currentParams = Object.fromEntries([...searchParams]);
+    console.log(currentParams); // get new values onchange
+  }, [searchParams]);
+
+  const paramObj = Object.fromEntries([...searchParams]);
+
   const companyInfo = [
     {
       logo: "/imges/c1.png",
@@ -38,6 +47,7 @@ function SearchResultForJob() {
 
   return (
     <Container>
+      {paramObj.search && <p> You searched for: {paramObj.search}</p>}
       <div className="text-left p-3">
         <Row>
           <Col sm={2}>
