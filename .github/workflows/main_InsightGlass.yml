@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy container app to Azure Web App - InsightGlass
 
 on:
@@ -27,14 +24,14 @@ jobs:
         password: ${{ secrets.AzureAppService_ContainerPassword_2159967023044c5d9f48166408666857 }}
     
     - name: Convert username to lowercase
-      id: username
-      run: echo "::set-output name=username::${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae }}"
+      id: lowercase_username
+      run: echo "::set-output name=username::${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae }}" | tr '[:upper:]' '[:lower:]'
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: insightglasstestserver20240517161221.azurecr.io/${{ steps.username.outputs.username }}/insightglasstestserver:${{ github.sha }}
+        tags: insightglasstestserver20240517161221.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insightglasstestserver:${{ github.sha }}
         file: ./dockerfile
 
   deploy:
@@ -52,4 +49,4 @@ jobs:
         app-name: 'InsightGlass'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_9300a2d27f7a4d0b9504332da013bb58 }}
-        images: 'insightglasstestserver20240517161221.azurecr.io/${{ steps.username.outputs.username }}/insightglasstestserver:${{ github.sha }}'
+        images: 'insightglasstestserver20240517161221.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insightglasstestserver:${{ github.sha }}'
