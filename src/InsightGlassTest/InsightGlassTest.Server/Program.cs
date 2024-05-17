@@ -23,7 +23,7 @@ namespace InsightGlassTest.Server
             builder.Services.AddSwaggerGen();
 
             var LocalDB = builder.Configuration["ConnStrings:LocalString"];
-            var LiveDB = builder.Configuration["ConnStrings:LiveString"];
+            var LiveDB = "insight-glass.mysql.database.azure.com;user=insightglass_admin;password=TheIGlassDBPassword_1234;database=insightglassdb";
 
             var connectionString = LiveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
@@ -35,10 +35,6 @@ namespace InsightGlassTest.Server
             builder.Services.AddDbContext<idbcontext>(options =>
                     options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"), 
                     options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
-
-            // builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //         options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"), 
-            //         options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
 
             builder.Services.AddAuthorization();
             builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
@@ -79,22 +75,6 @@ namespace InsightGlassTest.Server
                 var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
                 return Results.Json(new { Email = email, Id = id }); ; // return the email as a plain text response
             }).RequireAuthorization();
-
-
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    var services = scope.ServiceProvider;
-            //    var context = services.GetRequiredService<idbcontext>();
-            //    var context_auth = services.GetRequiredService<ApplicationDbContext>();
-
-            //    // Ensure the database is created
-            //    context.Database.EnsureCreated();
-            //    var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService(typeof(UserManager<ApplicationUser>));
-
-            //    DataSeeder dataSeeder = new DataSeeder(userManager);
-            //    // Seed the database
-            //    await dataSeeder.SeedDatabase(context, context_auth);
-            //}
 
 
             // Configure the HTTP request pipeline.

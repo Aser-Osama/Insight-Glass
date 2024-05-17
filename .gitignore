@@ -402,3 +402,4 @@ FodyWeavers.xsd
 *.toc
 *.fdb_latexmk
 *.gz
+src/InsightGlassTest/insightglasstest.client/dist/imges/c1.png
