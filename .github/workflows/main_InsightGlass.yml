@@ -25,12 +25,16 @@ jobs:
         registry: https://insightglasstestserver20240517161221.azurecr.io/
         username: ${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae }}
         password: ${{ secrets.AzureAppService_ContainerPassword_2159967023044c5d9f48166408666857 }}
+    
+    - name: Convert username to lowercase
+      id: username
+      run: echo "::set-output name=username::${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae,,}}"
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: insightglasstestserver20240517161221.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae }}/insightglasstestserver:${{ github.sha }}
+        tags: insightglasstestserver20240517161221.azurecr.io/${{ steps.username.outputs.username }}/insightglasstestserver:${{ github.sha }}
         file: ./dockerfile
 
   deploy:
@@ -48,4 +52,4 @@ jobs:
         app-name: 'InsightGlass'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_9300a2d27f7a4d0b9504332da013bb58 }}
-        images: 'insightglasstestserver20240517161221.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae }}/insightglasstestserver:${{ github.sha }}'
+        images: 'insightglasstestserver20240517161221.azurecr.io/${{ steps.username.outputs.username }}/insightglasstestserver:${{ github.sha }}'
