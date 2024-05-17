@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: insightglasstestserver20240517161221.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ed445907f8b54ee3a3b0fd735c8676ae }}/insightglasstestserver:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./dockerfile
 
   deploy:
     runs-on: ubuntu-latest
