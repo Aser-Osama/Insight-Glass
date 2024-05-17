@@ -49,4 +49,4 @@ jobs:
         app-name: 'InsightGlass'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_9300a2d27f7a4d0b9504332da013bb58 }}
-        images: 'insightglasstestserver20240517161221.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insightglasstestserver:${{ github.sha }}'
+        images: 'insightglasstestserver20240517161221.azurecr.io${{ steps.lowercase_username.outputs.username }}/insightglasstestserver:${{ github.sha }}'
