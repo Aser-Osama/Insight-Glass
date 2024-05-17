@@ -9,9 +9,7 @@ on:
 jobs:
   build:
     runs-on: 'ubuntu-latest'
-    defaults:
-      run:
-        working-directory: ../src/InsightGlassTest/InsightGlassTest.Server
+
     steps:
     - uses: actions/checkout@v2
 
@@ -34,6 +32,7 @@ jobs:
       with:
         push: true
         tags: insightglasstestserver20240517161221.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insightglasstestserver:${{ github.sha }}
+        working-directory: ./src/InsightGlassTest/InsightGlassTest.Server
         file: /dockerfile
 
   deploy:
