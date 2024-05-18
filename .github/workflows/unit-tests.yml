@@ -40,16 +40,7 @@ jobs:
     - name: Build the project
       run: dotnet build src/InsightGlassTest/InsightGlassTest.sln --configuration Release
 
-    - name: Log in to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        enable-AzPSSession: false
-        environment: azurecloud
-        allow-no-subscriptions: false
-
     - name: Run tests
       env:
-        KeyVaultUrl: ${{ secrets.KeyVaultUrl }}
-        DBLiveConn: ${{ secrets.DBLiveConn }}
+        MYSQLCONNSTR_DBLiveConn: ${{ secrets.DBLiveConn }}
       run: dotnet test src/InsightGlassTest/InsightGlassTest.sln

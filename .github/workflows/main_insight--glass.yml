@@ -34,7 +34,7 @@ jobs:
       with:
         push: true
         tags: maincontainerinsight.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insight:${{ github.sha }}
-        file: ./src/InsightGlassTest/InsightGlassTest.Server/dockerfile
+        file: ./src/InsightGlassTest/InsightGlassTest.Server/dockerfile_release
 
   deploy:
     runs-on: ubuntu-latest

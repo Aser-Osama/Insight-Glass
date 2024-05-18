@@ -2,10 +2,8 @@ using InsightGlassTest.Server.Data;
 using InsightGlassTest.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MySqlConnector;
 using System.Security.Claims;
-using Azure.Identity;
 
 namespace InsightGlassTest.Server
 {
@@ -15,32 +13,22 @@ namespace InsightGlassTest.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            // Add services to the container
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-    
-            var keyVaultUri = new Uri(builder.Configuration.GetSection("KeyVaultUrl").Value!);
-            var credential = new DefaultAzureCredential();
-            builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
+            var liveDB = Environment.GetEnvironmentVariable("MYSQLCONNSTR_DBLiveConn");
 
-            var LocalDB = "server=localhost;user=root;password=1234;database=insightglassdb";
-            var LiveDB  = builder.Configuration.GetSection("DBLiveConn").Value;
-            //Console.WriteLine(LiveDB);
-
-            var connectionString = LiveDB;
+            var connectionString = liveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion), ServiceLifetime.Scoped);
-            
 
             builder.Services.AddDbContext<idbcontext>(options =>
-                    options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"), 
-                    options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
+                options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"),
+                options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
 
             builder.Services.AddAuthorization();
             builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
@@ -60,13 +48,13 @@ namespace InsightGlassTest.Server
             .AddSignInManager()
             .AddDefaultTokenProviders();
 
-            builder.Services.AddTransient<UserManager<ApplicationUser>>(); //seeding users
+            builder.Services.AddTransient<UserManager<ApplicationUser>>(); // Seeding users
+
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.MapIdentityApi<ApplicationUser>();
-
 
             app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
             {
@@ -74,16 +62,14 @@ namespace InsightGlassTest.Server
                 return Results.Ok();
             }).RequireAuthorization();
 
-
             app.MapGet("/pingauth", (ClaimsPrincipal user) =>
             {
-                var email = user.FindFirstValue(ClaimTypes.Email); // get the user's email from the claim
+                var email = user.FindFirstValue(ClaimTypes.Email); // Get the user's email from the claim
                 var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
-                return Results.Json(new { Email = email, Id = id }); ; // return the email as a plain text response
+                return Results.Json(new { Email = email, Id = id }); // Return the email as a JSON response
             }).RequireAuthorization();
 
-
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -91,12 +77,12 @@ namespace InsightGlassTest.Server
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.MapFallbackToFile("/index.html");
+
+            // Minimal await to satisfy compiler
+            await Task.CompletedTask;
 
             app.Run();
         }
