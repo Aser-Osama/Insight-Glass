@@ -57,4 +57,4 @@ jobs:
         app-name: 'insight--glass'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_542649602dab4a2e9a005a70fe9c7092 }}
-        images: 'maincontainerinsight.azurecr.io${{ steps.lowercase_username.outputs.username }}/insight:${{ github.sha }}'
+        images: 'maincontainerinsight.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insight:${{ github.sha }}'
