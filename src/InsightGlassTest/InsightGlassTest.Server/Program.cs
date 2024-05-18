@@ -23,10 +23,10 @@ namespace InsightGlassTest.Server
             var connectionString = liveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion), ServiceLifetime.Scoped);
 
-            builder.Services.AddDbContext<idbcontext>(options =>
+            builder.Services.AddDbContextFactory<idbcontext>(options =>
                 options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"),
                 options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
 
@@ -66,15 +66,18 @@ namespace InsightGlassTest.Server
             {
                 var email = user.FindFirstValue(ClaimTypes.Email); // Get the user's email from the claim
                 var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
-                return Results.Json(new { Email = email, Id = id }); // Return the email as a JSON response
+                return Results.Json(new { Email = email, Id = id }); // Return the email and id as a JSON response
             }).RequireAuthorization();
 
             // Configure the HTTP request pipeline
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
