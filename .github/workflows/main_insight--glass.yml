@@ -35,7 +35,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: maincontainerinsight.azurecr.io/${{ steps.lowercase_username.outputs.username }}/Insight:${{ github.sha }}
+        tags: maincontainerinsight.azurecr.io/${{ steps.lowercase_username.outputs.username }}/insight:${{ github.sha }}
         file: ./src/InsightGlassTest/InsightGlassTest.Server/dockerfile
 
   deploy:
@@ -57,4 +57,4 @@ jobs:
         app-name: 'insight--glass'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_542649602dab4a2e9a005a70fe9c7092 }}
-        images: 'maincontainerinsight.azurecr.io/${{ steps.lowercase_username.outputs.username }}/Insight:${{ github.sha }}'
+        images: 'maincontainerinsight.azurecr.io${{ steps.lowercase_username.outputs.username }}/insight:${{ github.sha }}'
