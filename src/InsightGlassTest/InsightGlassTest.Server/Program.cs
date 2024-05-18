@@ -1,4 +1,3 @@
-
 using InsightGlassTest.Server.Data;
 using InsightGlassTest.Server.Models;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using System.Security.Claims;
+using Azure.Identity;
 
 namespace InsightGlassTest.Server
 {
@@ -22,8 +22,14 @@ namespace InsightGlassTest.Server
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var LocalDB = builder.Configuration["ConnStrings:LocalString"];
-            var LiveDB  = "server=insight-glass.mysql.database.azure.com;user=insightglass_admin;password=TheIGlassDBPassword_1234;database=insightglassdb";
+    
+            var keyVaultUri = new Uri(builder.Configuration.GetSection("KeyVaultUrl").Value!);
+            var credential = new DefaultAzureCredential();
+            builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
+
+            var LocalDB = "server=localhost;user=root;password=1234;database=insightglassdb";
+            var LiveDB  = builder.Configuration.GetSection("DBLiveConn").Value;
+            //Console.WriteLine(LiveDB);
 
             var connectionString = LiveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
