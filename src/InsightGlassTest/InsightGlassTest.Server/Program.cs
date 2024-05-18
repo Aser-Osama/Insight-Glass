@@ -23,7 +23,7 @@ namespace InsightGlassTest.Server
             builder.Services.AddSwaggerGen();
 
             var LocalDB = builder.Configuration["ConnStrings:LocalString"];
-            var LiveDB = "insight-glass.mysql.database.azure.com;user=insightglass_admin;password=TheIGlassDBPassword_1234;database=insightglassdb";
+            var LiveDB  = "server=insight-glass.mysql.database.azure.com;user=insightglass_admin;password=TheIGlassDBPassword_1234;database=insightglassdb";
 
             var connectionString = LiveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
