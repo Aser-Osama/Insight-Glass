@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,7 +47,6 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
 
     - name: Run tests
       env:
