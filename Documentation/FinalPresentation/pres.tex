@@ -142,7 +142,7 @@ We followed a 3-tier architecture with all components hosted as scalable compone
 
 \begin{frame}{Project Archircture (cont.)}
     \begin{itemize}
-        \item Frontend \& Backend: React.js hosted on Azure Web Apps as a containerized scalable app.
+        \item Frontend \& Backend: React.js \& ASP web API hosted on Azure Web Apps as a containerized scalable app.
         \item Database: Azure MySQL Database for storing user, job, and company data.
         \item Devops: CI/CD Pipeline using GitHub Actions for automated deployment.
     \end{itemize}
@@ -154,7 +154,6 @@ We followed a 3-tier architecture with all components hosted as scalable compone
         \item Singleton Pattern for React Context: Helps us persist user state across components.
         \item Factory Pattern for the database connection: Make the most out of Entity Framework caching and 
         performance by following it's best practices. 
-        \item Strategy Pattern
         \item Dependency Injection in Web API controllers: We inject services and database context to controllers.
         \item Dependency Injection in React: We build our components to be reusable.
     \end{itemize}
