@@ -1,19 +1,19 @@
+using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
 public class SuiteTests : IDisposable
 {
     public IWebDriver driver { get; private set; }
-    public IDictionary<String, Object> vars { get; private set; }
+    public IDictionary<string, object> vars { get; private set; }
     public IJavaScriptExecutor js { get; private set; }
 
     public SuiteTests()
     {
-        // Configure remote WebDriver for Selenium container
-        var options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
         options.AddArgument("--headless"); // Run in headless mode
         options.AddArgument("--disable-gpu"); // Disable GPU acceleration
         options.AddArgument("--no-sandbox"); // Bypass OS security model
@@ -21,9 +21,9 @@ public class SuiteTests : IDisposable
         options.AddArgument("--ignore-certificate-errors"); // Ignore certificate errors
         options.AddArgument("--window-size=1920,1080"); // Set window size to ensure consistent rendering
 
-        driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), options.ToCapabilities());
+        driver = new ChromeDriver(options);
         js = (IJavaScriptExecutor)driver;
-        vars = new Dictionary<String, Object>();
+        vars = new Dictionary<string, object>();
     }
 
     public void Dispose()
