@@ -403,3 +403,4 @@ FodyWeavers.xsd
 *.fdb_latexmk
 *.gz
 src/InsightGlassTest/insightglasstest.client/dist/imges/c1.png
+src/InsightGlassTest/InsightGlassTest.Server/.fuse_hidden00001ad900000009

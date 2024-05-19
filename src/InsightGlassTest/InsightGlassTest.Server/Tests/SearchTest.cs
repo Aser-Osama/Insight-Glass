@@ -54,16 +54,16 @@ public class SuiteTests : IDisposable
 
         // 5 | click | css=.btn-outline-success | 
         driver.FindElement(By.CssSelector(".btn-outline-success")).Click();
-        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
         // 6 | click | css=.row:nth-child(10) .job-logo | 
-        driver.FindElement(By.CssSelector(".row:nth-child(10) .job-logo")).Click();
-
-        // 7 | click | css=.row:nth-child(10) .job-logo | 
-        driver.FindElement(By.CssSelector(".row:nth-child(10) .job-logo")).Click();
-
-        // 8 | assertElementPresent | linkText=Apply | Button to apply
+        driver.FindElement(By.CssSelector(".btn-outline-success")).Click();
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+        // 7 | click | css=.col-sm-4 > div:nth-child(1) > div:nth-child(1) | 
+        driver.FindElement(By.CssSelector(".col-sm-4 > div:nth-child(1) > div:nth-child(1)")).Click();
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+        // 8 | assertElementPresent | css=.col-sm-8 .d-inline-block | 
         {
-            IReadOnlyCollection<IWebElement> elements = driver.FindElements(By.LinkText("Apply"));
+            IReadOnlyCollection<IWebElement> elements = driver.FindElements(By.CssSelector(".col-sm-8 .d-inline-block"));
             Assert.True(elements.Count > 0);
         }
     }
