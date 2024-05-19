@@ -40,25 +40,30 @@ jobs:
     - name: Build the project
       run: dotnet build src/InsightGlassTest/InsightGlassTest.sln --configuration Release
 
-    - name: Add Mozilla PPA and install Firefox
+    - name: Install Chrome
       run: |
-        sudo add-apt-repository -y ppa:mozillateam/ppa
         sudo apt-get update
-        sudo apt-get install -y firefox
+        sudo apt-get install -y wget unzip
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
 
-    - name: Download and set up geckodriver
+    - name: Download and set up chromedriver
       run: |
-        GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r ".tag_name")
-        wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
-        tar -xzf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
-        sudo mv geckodriver /usr/local/bin/
-        rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+        CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+        wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv chromedriver /usr/local/bin/
+        rm chromedriver_linux64.zip
+
+    - name: Run server
+      run: |
+        cd src/InsightGlassTest/InsightGlassTest.Server
+        dotnet run --configuration Release &
+        sleep 10
 
     - name: Run tests
       env:
         MYSQLCONNSTR_DBLiveConn: ${{ secrets.DBLiveConn }}
-      run: |
-        cd src/InsightGlassTest/InsightGlassTest.Server
-        dotnet run --configuration release &
-        sleep 10
-        dotnet test
+      run: dotnet test src/InsightGlassTest/InsightGlassTest.sln
