@@ -40,7 +40,22 @@ jobs:
     - name: Build the project
       run: dotnet build src/InsightGlassTest/InsightGlassTest.sln --configuration Release
 
+    - name: Install Firefox
+      run: sudo apt-get install -y firefox
+
+    - name: Download and set up geckodriver
+      run: |
+        GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r ".tag_name")
+        wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+        tar -xzf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+        sudo mv geckodriver /usr/local/bin/
+        rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+
     - name: Run tests
       env:
         MYSQLCONNSTR_DBLiveConn: ${{ secrets.DBLiveConn }}
-      run: dotnet test src/InsightGlassTest/InsightGlassTest.sln
+      run: |
+        cd src/InsightGlassTest/InsightGlassTest.Server
+        dotnet run --configuration release
+        sleep 10
+        dotnet test
