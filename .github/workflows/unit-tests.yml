@@ -40,23 +40,22 @@ jobs:
     - name: Build the project
       run: dotnet build src/InsightGlassTest/InsightGlassTest.sln --configuration Release
 
-    - name: Install Chrome
+    - name: Install a specific version of Chrome
       run: |
         sudo apt-get update
         sudo apt-get install -y wget unzip
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        sudo sh -c 'echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+        wget https://storage.googleapis.com/chrome-for-testing-public/125.0.6422.60/linux64/chrome-linux64.zip
+        unzip chrome-linux64.zip
+        sudo mv chrome-linux64 /usr/local/bin/google-chrome
+        rm chrome-linux64.zip
 
-    - name: Download and set up chromedriver
+    - name: Download and set up ChromeDriver
       run: |
-        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-        CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
-        wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/local/bin/
-        rm chromedriver_linux64.zip
+        CHROME_DRIVER_VERSION=125.0.6422.60
+        wget https://storage.googleapis.com/chrome-for-testing-public/$CHROME_DRIVER_VERSION/linux64/chromedriver-linux64.zip
+        unzip chromedriver-linux64.zip
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+        rm chromedriver-linux64.zip
 
     - name: Run server
       run: |
