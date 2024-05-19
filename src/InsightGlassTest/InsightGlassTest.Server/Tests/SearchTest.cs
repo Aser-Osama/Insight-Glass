@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
