@@ -38,30 +38,29 @@ public class SuiteTests : IDisposable
         // Step # | name | target | value
         // 1 | open | / | 
         driver.Navigate().GoToUrl("https://localhost:5173/");
-        
+
         // Wait for the page to load completely
         var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         wait.Until(driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
-        
+
         // 2 | setWindowSize | 2048x1255 | 
         driver.Manage().Window.Size = new System.Drawing.Size(2048, 1255);
-        
+
         // 3 | click | css=.form-control | 
-        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".form-control"))).Click();
-        
+        driver.FindElement(By.CssSelector(".form-control")).Click();
+
         // 4 | type | css=.form-control | ba
         driver.FindElement(By.CssSelector(".form-control")).SendKeys("ba");
-        
+
         // 5 | click | css=.btn-outline-success | 
-        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".btn-outline-success"))).Click();
-        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);        
-        
+        driver.FindElement(By.CssSelector(".btn-outline-success")).Click();
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         // 6 | click | css=.row:nth-child(10) .job-logo | 
-        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".row:nth-child(10) .job-logo"))).Click();
-        
+        driver.FindElement(By.CssSelector(".row:nth-child(10) .job-logo")).Click();
+
         // 7 | click | css=.row:nth-child(10) .job-logo | 
-        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".row:nth-child(10) .job-logo"))).Click();
-        
+        driver.FindElement(By.CssSelector(".row:nth-child(10) .job-logo")).Click();
+
         // 8 | assertElementPresent | linkText=Apply | Button to apply
         {
             IReadOnlyCollection<IWebElement> elements = driver.FindElements(By.LinkText("Apply"));
