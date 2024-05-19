@@ -1,9 +1,7 @@
-
 using InsightGlassTest.Server.Data;
 using InsightGlassTest.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MySqlConnector;
 using System.Security.Claims;
 
@@ -15,44 +13,27 @@ namespace InsightGlassTest.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigins",
-        builder =>
-        {
-            builder.WithOrigins("https://localhost:5173") // Add the frontend URL here
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
-            }
-                );
-
             builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            // Add services to the container
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var LocalDB = builder.Configuration["ConnStrings:LocalString"];
-            var LiveDB = builder.Configuration["ConnStrings:LiveString"];
+            var liveDB = Environment.GetEnvironmentVariable("MYSQLCONNSTR_DBLiveConn");
 
-            var connectionString = LiveDB;
+            var connectionString = liveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion), ServiceLifetime.Scoped);
-            
 
-            builder.Services.AddDbContext<idbcontext>(options =>
-                    options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"), 
-                    options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
-
-            // builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //         options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"), 
-            //         options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
+            builder.Services.AddDbContextFactory<idbcontext>(options =>
+                options.UseMySql(connectionString, ServerVersion.Parse("8.0.34-mysql"),
+                options => options.EnableRetryOnFailure()), ServiceLifetime.Scoped);
 
             builder.Services.AddAuthorization();
             builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
@@ -72,13 +53,13 @@ namespace InsightGlassTest.Server
             .AddSignInManager()
             .AddDefaultTokenProviders();
 
-            builder.Services.AddTransient<UserManager<ApplicationUser>>(); //seeding users
+            builder.Services.AddTransient<UserManager<ApplicationUser>>(); // Seeding users
+
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.MapIdentityApi<ApplicationUser>();
-
 
             app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
             {
@@ -86,46 +67,31 @@ namespace InsightGlassTest.Server
                 return Results.Ok();
             }).RequireAuthorization();
 
-
             app.MapGet("/pingauth", (ClaimsPrincipal user) =>
             {
-                var email = user.FindFirstValue(ClaimTypes.Email); // get the user's email from the claim
+                var email = user.FindFirstValue(ClaimTypes.Email); // Get the user's email from the claim
                 var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
-                return Results.Json(new { Email = email, Id = id }); ; // return the email as a plain text response
+                return Results.Json(new { Email = email, Id = id }); // Return the email and id as a JSON response
             }).RequireAuthorization();
 
-
-            //using (var scope = app.Services.CreateScope())
+            // Configure the HTTP request pipeline
+            //if (app.Environment.IsDevelopment())
             //{
-            //    var services = scope.ServiceProvider;
-            //    var context = services.GetRequiredService<idbcontext>();
-            //    var context_auth = services.GetRequiredService<ApplicationDbContext>();
-
-            //    // Ensure the database is created
-            //    context.Database.EnsureCreated();
-            //    var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService(typeof(UserManager<ApplicationUser>));
-
-            //    DataSeeder dataSeeder = new DataSeeder(userManager);
-            //    // Seed the database
-            //    await dataSeeder.SeedDatabase(context, context_auth);
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
             //}
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.MapFallbackToFile("/index.html");
             app.UseCors();
+
+            // Minimal await to satisfy compiler
+            await Task.CompletedTask;
 
             app.Run();
         }

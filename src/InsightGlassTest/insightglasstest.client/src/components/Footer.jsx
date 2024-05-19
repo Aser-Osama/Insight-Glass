@@ -71,7 +71,7 @@ export default function FooterMain() {
         </Row>
         <Row className="justify-content-center">
           <Col className="text-center">
-            <p>All rights resirved © of their respective owners</p>
+            <p>All rights reserved © of their respective owners</p>
           </Col>
         </Row>
       </Container>

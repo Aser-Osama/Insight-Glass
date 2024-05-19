@@ -28,7 +28,7 @@ function NavBarMain() {
               className="d-inline-block align-top"
             />
             {"  "}
-            Insignt Glass
+            Insight Glass
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

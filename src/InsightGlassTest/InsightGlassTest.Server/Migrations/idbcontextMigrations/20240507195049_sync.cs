@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InsightGlassTest.Server.Migrations.idbcontextMigrations
 {
     /// <inheritdoc />
-    public partial class sync : Migration
+    public partial class Syncdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

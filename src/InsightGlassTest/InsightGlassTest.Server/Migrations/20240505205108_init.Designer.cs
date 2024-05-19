@@ -13,7 +13,7 @@ namespace InsightGlassTest.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240505205108_init")]
-    partial class init
+    partial class Initdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

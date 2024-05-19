@@ -13,7 +13,7 @@ namespace InsightGlassTest.Server.Migrations.idbcontextMigrations
 {
     [DbContext(typeof(idbcontext))]
     [Migration("20240507195049_sync")]
-    partial class sync
+    partial class Syncdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
