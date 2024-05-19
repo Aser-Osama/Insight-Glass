@@ -46,8 +46,8 @@ public partial class Aspnetuser
     public bool LockoutEnabled { get; set; }
 
     public int AccessFailedCount { get; set; }
-    public bool LoggedInBefore { get; set; }
-    public string UserType { get; set; }
+    public bool? LoggedInBefore { get; set; }
+    public string? UserType { get; set; }
 
 
     [InverseProperty("User")]

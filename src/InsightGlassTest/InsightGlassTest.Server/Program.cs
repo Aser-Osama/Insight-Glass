@@ -24,7 +24,6 @@ namespace InsightGlassTest.Server
             builder.Services.AddSwaggerGen();
 
             var liveDB = Environment.GetEnvironmentVariable("MYSQLCONNSTR_DBLiveConn");
-
             var connectionString = liveDB;
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 34));
 
