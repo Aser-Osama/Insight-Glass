@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
@@ -13,8 +13,8 @@ public class SuiteTests : IDisposable
 
     public SuiteTests()
     {
-        // Configure Chrome options for headless mode
-        ChromeOptions options = new ChromeOptions();
+        // Configure remote WebDriver for Selenium container
+        var options = new ChromeOptions();
         options.AddArgument("--headless"); // Run in headless mode
         options.AddArgument("--disable-gpu"); // Disable GPU acceleration
         options.AddArgument("--no-sandbox"); // Bypass OS security model
@@ -22,7 +22,7 @@ public class SuiteTests : IDisposable
         options.AddArgument("--ignore-certificate-errors"); // Ignore certificate errors
         options.AddArgument("--window-size=1920,1080"); // Set window size to ensure consistent rendering
 
-        driver = new ChromeDriver(options);
+        driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), options.ToCapabilities());
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<String, Object>();
     }
@@ -48,19 +48,20 @@ public class SuiteTests : IDisposable
         driver.Manage().Window.Size = new System.Drawing.Size(2048, 1255);
         
         // 3 | click | css=.form-control | 
-        driver.FindElement(By.CssSelector(".form-control")).Click();
+        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".form-control"))).Click();
         
         // 4 | type | css=.form-control | ba
         driver.FindElement(By.CssSelector(".form-control")).SendKeys("ba");
         
         // 5 | click | css=.btn-outline-success | 
-        driver.FindElement(By.CssSelector(".btn-outline-success")).Click();
+        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".btn-outline-success"))).Click();
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);        
+        
         // 6 | click | css=.row:nth-child(10) .job-logo | 
-        driver.FindElement(By.CssSelector(".row:nth-child(10) .job-logo")).Click();
+        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".row:nth-child(10) .job-logo"))).Click();
         
         // 7 | click | css=.row:nth-child(10) .job-logo | 
-        driver.FindElement(By.CssSelector(".row:nth-child(10) .job-logo")).Click();
+        wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(".row:nth-child(10) .job-logo"))).Click();
         
         // 8 | assertElementPresent | linkText=Apply | Button to apply
         {
