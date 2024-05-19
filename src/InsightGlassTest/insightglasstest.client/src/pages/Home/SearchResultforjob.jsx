@@ -1,142 +1,99 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 function SearchResultForJob() {
-  const [searchParams] = useSearchParams();
-  useEffect(() => {
-    const currentParams = Object.fromEntries([...searchParams]);
-    console.log(currentParams); // get new values onchange
-  }, [searchParams]);
+    const [selectedJob, setSelectedJob] = useState(null);
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchParams] = useSearchParams();
 
-  const paramObj = Object.fromEntries([...searchParams]);
+    const fetchParams = async () => {
+        const currentParams = Object.fromEntries([...searchParams]);
+        if (currentParams.search) {
+            try {
+                const res = await axios.get(`/api/jobs/search?search=${currentParams.search}`);
+                setSearchResults(res.data.$values);  // Update to match the structure of your data
+            } catch (err) {
+                console.log("Error fetching search results:", err);
+            }
+        }
+    };
 
-  const companyInfo = [
-    {
-      logo: "/imges/c1.png",
-      name: "Company 1",
-      title: "Job Title 1",
-      location: "Location 1",
-    },
-    {
-      logo: "/imges/logo.png",
-      name: "Company 2",
-      title: "Job Title 2",
-      location: "Location 2",
-    },
-    {
-      logo: "/imges/c5.png",
-      name: "Company 3",
-      title: "Job Title 3",
-      location: "Location 3",
-    },
-  ];
+    useEffect(() => {
+        fetchParams();
+    }, [searchParams]);
 
-  const projectDescription =
-    "The intern will assist in creating business materials such as company profiles and pitch decks and will be involved in fundraising activities including investor outreach and meeting scheduling.";
+    const handleJobSelect = (job) => {
+        setSelectedJob(job);
+    };
 
-  const qualification =
-    "Experience Needed: 0 To 1 Year Career Level: Student (Undergrad / Postgrad) Education Level: Not Specified";
+    return (
+        <Container>
+            {searchParams.get("search") && <p>You searched for: {searchParams.get("search")}</p>}
+            <div className="text-left p-3">
+                <Row>
+                    <Col sm={4}>
+                        {searchResults.map((job, index) => (
+                            <JobInfo
+                                key={index}
+                                logo={job.logo || '/default-logo.png'}
+                                title={job.jobTitle}
+                                location={job.jobLocation}
+                                company={job.companyUser?.userName}
+                                onSelect={() => handleJobSelect(job)}
+                            />
+                        ))}
+                    </Col>
+                    <Col sm={8}>
+                        {selectedJob && (
+                            <>
+                                <JobInfo
+                                    logo={selectedJob.logo}
+                                    title={selectedJob.jobTitle}                                />
+                                <Row>
+                                    <Col sm={12}>
+                                        <p><strong>Job Description:</strong> {selectedJob.jobDetails}</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12}>
+                                        <p><strong>Salary:</strong> {selectedJob.jobSalary}</p>
+                                    </Col>
+                                </Row>
+                                <div className="mr-3">
+                                    <Button variant="success" href="#">Apply</Button>
+                                </div>
+                            </>
+                        )}
+                    </Col>
+                </Row>
+            </div>
+        </Container>
+    );
+}
 
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const [hoverSelectedCompany, sethoverSelectedCompany] = useState(null);
-
-  const handleCompanySelect = (index) => {
-    setSelectedCompany((i) => (index === i ? null : index));
-  };
-
-  return (
-    <Container>
-      {paramObj.search && <p> You searched for: {paramObj.search}</p>}
-      <div className="text-left p-3">
-        <Row>
-          <Col sm={2}>
-            {companyInfo.map((company, index) => (
-              <Row
-                key={index}
-                onClick={() => handleCompanySelect(index)}
-                className={`${selectedCompany === index ? "selected" : ""}`}
-                style={{
-                  backgroundColor:
-                    hoverSelectedCompany === index ? "lightgray" : "",
-                }}
-                onMouseEnter={() => sethoverSelectedCompany(index)}
-                onMouseLeave={() => sethoverSelectedCompany(null)}
-              >
-                <div className="company-info text-center">
-                  <div className="company-logo text-center">
+function JobInfo({ logo, title, location, company, onSelect }) {
+    return (
+        <Row onClick={onSelect}>
+            <div className="job-info">
+                <div className="job-logo">
                     <img
-                      alt=""
-                      src={company.logo}
-                      width="70"
-                      height="70"
-                      className="d-inline-block align-top"
-                    />
-                  </div>
-                  <div>
-                    <p className="mt-0">{company.name}</p>
-                    <p className="job-title" style={{ fontWeight: "bold" }}>
-                      {company.title}
-                    </p>
-                    <p>{company.location}</p>
-                  </div>
-                </div>
-              </Row>
-            ))}
-          </Col>
-          <Col sm={10}>
-            {/*main view */}
-            <Row>
-              <Col sm={12}>
-                {selectedCompany !== null && (
-                  <div className="company-info ">
-                    <div className="company-logo">
-                      <img
                         alt=""
-                        src={companyInfo[selectedCompany].logo}
+                        src={logo}
                         width="70"
                         height="70"
                         className="d-inline-block align-top"
-                      />
-                    </div>
-                    <div>
-                      <p className="mt-0">
-                        {companyInfo[selectedCompany].name}
-                      </p>
-                      <p className="job-title">
-                        {companyInfo[selectedCompany].title}
-                      </p>
-                      <p>{companyInfo[selectedCompany].location}</p>
-                    </div>
-                    <Row>
-                      <Col sm={12}>
-                        <p>
-                          <strong>Project Description:</strong>{" "}
-                          <small className="project-description">
-                            {projectDescription}
-                          </small>
-                        </p>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm={12}>
-                        <p>
-                          <strong>Qualification:</strong>{" "}
-                          <small className="project-description">
-                            {qualification}
-                          </small>
-                        </p>
-                      </Col>
-                    </Row>
-                  </div>
-                )}
-              </Col>
-            </Row>
-          </Col>
+                    />
+                </div>
+                <div>
+                    <p className="mt-0 font-weight-bold">{title}</p>
+                    <p className="job-location">{location}</p>
+                    <p>{company}</p>
+                </div>
+            </div>
         </Row>
-      </div>
-    </Container>
-  );
+    );
 }
 
 export default SearchResultForJob;
