@@ -13,10 +13,15 @@ public class SuiteTests : IDisposable
 
     public SuiteTests()
     {
-        // Configure Chrome options
+        // Configure Chrome options for headless mode
         ChromeOptions options = new ChromeOptions();
-        options.AddArgument("--ignore-certificate-errors");
-        
+        options.AddArgument("--headless"); // Run in headless mode
+        options.AddArgument("--disable-gpu"); // Disable GPU acceleration
+        options.AddArgument("--no-sandbox"); // Bypass OS security model
+        options.AddArgument("--disable-dev-shm-usage"); // Overcome limited resource problems
+        options.AddArgument("--ignore-certificate-errors"); // Ignore certificate errors
+        options.AddArgument("--window-size=1920,1080"); // Set window size to ensure consistent rendering
+
         driver = new ChromeDriver(options);
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<String, Object>();
