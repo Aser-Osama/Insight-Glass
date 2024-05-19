@@ -16,8 +16,22 @@ namespace InsightGlassTest.Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:5173") // Add the frontend URL here
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+            }
+                );
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -111,6 +125,7 @@ namespace InsightGlassTest.Server
             app.MapControllers();
 
             app.MapFallbackToFile("/index.html");
+            app.UseCors();
 
             app.Run();
         }

@@ -42,7 +42,6 @@ namespace InsightGlassTest.Server.Controllers
         }
 
         // PUT: api/Companies/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany(string id, Company company)
         {
@@ -73,7 +72,6 @@ namespace InsightGlassTest.Server.Controllers
         }
 
         // POST: api/Companies
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
@@ -111,6 +109,22 @@ namespace InsightGlassTest.Server.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Company>>> SearchForCompany(string search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return BadRequest("Search query cannot be empty.");
+            }
+
+            var companies = await _context.Companies
+                .Include(c => c.CompanyUser) // Include related CompanyUser entity
+                .Where(c => c.CompanyUser.UserName.Contains(search) || c.CompanyIndustry.Contains(search))
+                .ToListAsync();
+
+            return Ok(companies);
         }
 
         private bool CompanyExists(string id)
